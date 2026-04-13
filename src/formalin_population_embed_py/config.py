@@ -46,7 +46,7 @@ def canonical_dataset_name(token: str | None) -> str:
     t = str(token).strip().lower()
     if t in {"all", "*"}:
         return "all"
-    if t in {"cap", "capsaicin", "capsaicin-pdx", "capsaicin_pdx", "cap_naive"}:
+    if t in {"cap", "capsaicin", "capsaicin-pdx", "capsaicin_pdx"}:
         return "cap"
     if t in {"formalin", "formaline", "saline", "lidocane", "lidocaine", "wt", "cpfull"}:
         return "formalin"
@@ -71,12 +71,11 @@ class ScientificConfig:
     acute_pain_minutes: float = 5.0
     shared_non_pain_groups: tuple[str, ...] = (
         "SALINE",
-        "CAP_NAIVE",
         "NAIVE",
         "LIDOCAINE",
         "CAPSAICIN_PDX",
     )
-    control_anchor_groups: tuple[str, ...] = ("SALINE", "CAP_NAIVE", "NAIVE")
+    control_anchor_groups: tuple[str, ...] = ("SALINE", "NAIVE")
     acute_pain_groups: tuple[str, ...] = ("FORMALIN", "CAPSAICIN")
     enable_mnn_state_aware: bool = False
     prefer_anchor_reference: bool = True

@@ -25,6 +25,7 @@ def test_analysis_outputs_emit_manual_label_template_and_labeled_figures(tmp_pat
         'reembedding_labels_all': ['formalin_mouse04.mat'],
     }
 
+    ll2_before = results['LL2'].copy()
     outputs = create_analysis_outputs(results, tmp_path / 'analysis_outputs', sampling_freq=30.0)
     assert outputs['manual_region_labels_template'].exists()
     assert outputs['region_index_mapping'].exists()
@@ -49,3 +50,17 @@ def test_analysis_outputs_emit_manual_label_template_and_labeled_figures(tmp_pat
     labeled_summary = pd.read_csv(labeled_outputs['region_summary_manual_labels'])
     assert 'ManualLabel' in labeled_summary.columns
     assert set(labeled_summary['ManualLabel'].fillna('').tolist()) >= {'grooming', 'guarding'}
+
+    unlabeled_summary = pd.read_csv(outputs['region_summary'])
+    labeled_base_summary = labeled_summary.drop(columns=['ManualLabel', 'Notes'])
+    pd.testing.assert_frame_equal(
+        unlabeled_summary.sort_index(axis=1),
+        labeled_base_summary.sort_index(axis=1),
+        check_dtype=False,
+    )
+    pd.testing.assert_frame_equal(
+        pd.read_csv(outputs['region_index_mapping']).sort_index(axis=1),
+        pd.read_csv(labeled_outputs['region_index_mapping']).sort_index(axis=1),
+        check_dtype=False,
+    )
+    np.testing.assert_array_equal(results['LL2'], ll2_before)
