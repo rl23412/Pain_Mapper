@@ -139,7 +139,7 @@ def joint_population_path_info(path_in: str | Path) -> dict[str, Any]:
         elif token.startswith("capsaicin"):
             info["group"] = "CAPSAICIN"
         else:
-            info["group"] = "CAP_NAIVE"
+            info["group"] = "NAIVE"
         return info
 
     formalin_tokens = re.match(
@@ -179,7 +179,7 @@ def parse_formalinsession_group_and_vid(filename: str | Path) -> tuple[str, floa
     if info.get("dataset"):
         return str(info["group"]), float(info["vidNum"]), str(info["datasetTag"])
     base = Path(str(filename)).name.lower()
-    flat_match = re.match(r"(saline|formalin|formaline|lidocaine|lidocane|naive|capsaicin|capsaicin_pdx|cap_naive)_mouse(\d+)\.mat$", base)
+    flat_match = re.match(r"(saline|formalin|formaline|lidocaine|lidocane|naive|capsaicin|capsaicin_pdx)_mouse(\d+)\.mat$", base)
     if flat_match:
         token = flat_match.group(1)
         vid_num = float(flat_match.group(2))
@@ -195,8 +195,6 @@ def parse_formalinsession_group_and_vid(filename: str | Path) -> tuple[str, floa
             return "CAPSAICIN_PDX", vid_num, "cap"
         if token == "capsaicin":
             return "CAPSAICIN", vid_num, "cap"
-        if token == "cap_naive":
-            return "CAP_NAIVE", vid_num, "cap"
     rel_path = str(filename).replace("\\", "/").lower()
     parts = [p.strip() for p in rel_path.split("/") if p.strip()]
     group = ""
@@ -343,15 +341,14 @@ def group_sort_rank(group_name: str) -> int:
     key = str(group_name).strip().upper()
     order = {
         "RAN": 1,
-        "CAP_NAIVE": 2,
-        "CAPSAICIN": 3,
-        "CAPSAICIN_PDX": 4,
-        "SALINE": 5,
-        "FORMALIN": 6,
-        "LIDOCAINE": 7,
-        "NAIVE": 8,
-        "NANOSTING": 9,
-        "VEHICLE": 10,
+        "CAPSAICIN": 2,
+        "CAPSAICIN_PDX": 3,
+        "SALINE": 4,
+        "FORMALIN": 5,
+        "LIDOCAINE": 6,
+        "NAIVE": 7,
+        "NANOSTING": 8,
+        "VEHICLE": 9,
     }
     return order.get(key, 99)
 

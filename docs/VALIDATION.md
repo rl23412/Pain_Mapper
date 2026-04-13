@@ -6,7 +6,7 @@ Checks run on this bundle:
 
 - `python -m compileall src examples tests`
 - `PYTHONPATH=src pytest -q`
-- an end-to-end smoke run on generated synthetic MAT files using the fixed-parameter CLI
+- an end-to-end smoke run of the fixed-parameter CLI
 
 Latest local result:
 

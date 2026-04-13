@@ -182,7 +182,7 @@ def joint_population_pain_label(group_name: str, time_minutes: float | None = No
         return "PAINFUL"
     if key == "CAPSAICIN":
         return "PAINFUL" if time_minutes < 5 else "NONPAINFUL"
-    if key in {"CAPSAICIN_PDX", "CAP_NAIVE", "SALINE", "LIDOCAINE", "NAIVE", "VEHICLE", "WT", "NANOSTING", "RAN", "BONE"}:
+    if key in {"CAPSAICIN_PDX", "SALINE", "LIDOCAINE", "NAIVE", "VEHICLE", "WT", "NANOSTING", "RAN", "BONE"}:
         return "NONPAINFUL"
     raise ValueError(f"Unknown joint-population group {group_name!r}")
 
